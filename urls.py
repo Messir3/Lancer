@@ -1,20 +1,24 @@
-from django.urls import path
+"""lancer URL Configuration
 
-from .views import (HomePageView, WorkerCreateView, EmployerCreateView,
-					 post_detail, PostCreateView, HomePageView,
-					 PostListView, ProfileUpdateView, PostEditView
-					)
-
-app_name = 'blog'
-
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/2.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import path, include
 urlpatterns = [
-	path('', HomePageView.as_view(), name='home'),
-    path('signup/worker/', WorkerCreateView.as_view(), name='worker_signup'),
-	path('signup/employer/', EmployerCreateView.as_view(), name="employer_signup"),
-	path('postcreate/', PostCreateView.as_view(), name="post_create"),
-	path('postlist/', PostListView.as_view(), name="postlist"),
-	path('postlist/tag/<str:tag_slug>/', PostListView.as_view(), name="postlist_tag_slug"),
-	path('profile/<str:pk>/', ProfileUpdateView.as_view(), name="profile"),
-	path('<str:year>/<str:slug>/edit/', PostEditView.as_view(), name="post_edit"),
-	path('<str:year>/<str:slug>/', post_detail, name="post_detail"),
+    path('admin/', admin.site.urls),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('', include('blog.urls'), name='blog'),
 ]
